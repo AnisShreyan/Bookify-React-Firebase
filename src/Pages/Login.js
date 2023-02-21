@@ -14,12 +14,10 @@ function Login() {
   const HandleClick = async (e) => {
     e.preventDefault();
     console.log("Sigining user...");
-    const reslt = await firebase.signinUserWithEmailandPassword(
+     await firebase.signinUserWithEmailandPassword(
       email,
       password
     );
-    console.log("signed in");
-    console.log(reslt);
   };
 
   const HandleGoogleLogin = async (e) => {

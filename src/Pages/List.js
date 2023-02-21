@@ -44,11 +44,12 @@ function ListingPage() {
         <Form.Group className="mb-3" controlId="formPrice">
           <Form.Label>Price</Form.Label>
           <Form.Control
-            type="text"
+            type="number"
             placeholder="Price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             required
+            min="1"
           />
         </Form.Group>
 
@@ -56,7 +57,6 @@ function ListingPage() {
           <Form.Label>Cover Pic</Form.Label>
           <Form.Control
             type="file"
-            placeholder="Price"
             onChange={(e) => setCoverPic(e.target.files[0])}
             required
           />

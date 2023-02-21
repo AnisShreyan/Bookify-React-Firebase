@@ -14,9 +14,9 @@ function Home() {
 
   return (
     <div className="container mt-5">
-      <CardGroup>
+      <CardGroup style={{ justifyContent: "center" }}>
         {books.map((book, key) => (
-          <BookCard key={key} {...book.data()} />
+          <BookCard key={key} id={book.id} {...book.data()} />
         ))}
       </CardGroup>
     </div>

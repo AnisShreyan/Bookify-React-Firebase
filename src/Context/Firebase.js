@@ -7,12 +7,17 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 import {
   getFirestore,
   collection,
   addDoc,
-  getDocs
+  getDocs,
+  doc,
+  getDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -33,7 +38,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider(app);
 const storage = getStorage(app);
-const firestore = getFirestore(app)
+const firestore = getFirestore(app);
 
 export const FirebaseProvider = (props) => {
   const signupUserWithEmailandPassword = (email, password) => {
@@ -80,14 +85,44 @@ export const FirebaseProvider = (props) => {
     });
   };
 
+  const listAllBooks = () => {
+    return getDocs(collection(firestore, "books"));
+  };
 
-  const listAllBooks =()=>{
-    return getDocs(collection(firestore, "books"))
-  }
+  const getImageUrl = (path) => {
+    return getDownloadURL(ref(storage, path));
+  };
 
-  const getImageUrl =(path)=>{
-    return getDownloadURL(ref(storage, path))
-  }
+  const logOut = () => {
+    signOut(auth);
+  };
+
+  const getBookById = async (id) => {
+    const docRef = doc(firestore, "books", id);
+    const reslt = await getDoc(docRef);
+    return reslt;
+  };
+
+  const placeOrder = async (bookId, quantity) => {
+    const collectionRef = collection(firestore, "books", bookId, "orders");
+    const reslt = await addDoc(collectionRef, {
+      uuserId: user.uid,
+      userEmail: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      quantity: Number(quantity),
+    });
+  };
+
+  const fetchMyOrders = async () => {
+    if (!user) return null;
+
+    const collectionRef = collection(firestore, "books");
+    const qry = query(collectionRef, where("userID", "==", user.uid));
+
+    const result = await getDocs(qry);
+    return result;
+  };
 
   return (
     <FirebaseContext.Provider
@@ -97,7 +132,12 @@ export const FirebaseProvider = (props) => {
         signinWithGoogle,
         isLoggedIn,
         HandleCreateListing,
-        listAllBooks, getImageUrl
+        listAllBooks,
+        getImageUrl,
+        logOut,
+        getBookById,
+        placeOrder,
+        fetchMyOrders,
       }}
     >
       {props.children}
