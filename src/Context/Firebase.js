@@ -114,15 +114,19 @@ export const FirebaseProvider = (props) => {
     });
   };
 
-  const fetchMyOrders = async () => {
-    if (!user) return null;
-
+  const fetchMyBooks = async (userId) => {
     const collectionRef = collection(firestore, "books");
-    const qry = query(collectionRef, where("userID", "==", user.uid));
+    const qry = query(collectionRef, where("userId", "==", userId));
 
-    const result = await getDocs(qry);
-    return result;
+    const reslt = await getDocs(qry);
+    return reslt;
   };
+
+  const getOrders  = async (bookId)=>{
+    const collectionRef = collection(firestore, "books", bookId, "orders")
+    const result = await getDocs(collectionRef) 
+    return result
+  }
 
   return (
     <FirebaseContext.Provider
@@ -137,7 +141,8 @@ export const FirebaseProvider = (props) => {
         logOut,
         getBookById,
         placeOrder,
-        fetchMyOrders,
+        fetchMyBooks,
+        user, getOrders
       }}
     >
       {props.children}

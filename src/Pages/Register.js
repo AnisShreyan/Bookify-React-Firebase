@@ -14,13 +14,13 @@ function Register() {
 
   const HandleClick = async (e) => {
     e.preventDefault();
-    console.log("Sigining user...");
+    // console.log("Sigining user...");
     const reslt = await firebase.signupUserWithEmailandPassword(
       email,
       password
     );
-    console.log("signed up");
-    console.log(reslt);
+    // console.log("signed up");
+    // console.log(reslt);
   };
 
   useEffect(() => {

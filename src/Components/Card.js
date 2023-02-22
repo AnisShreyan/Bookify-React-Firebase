@@ -15,7 +15,7 @@ function BookCard(props) {
 
   const navigate = useNavigate()
 
-  console.log(props);
+  // console.log(props);
 
   return (
     <>
@@ -28,7 +28,7 @@ function BookCard(props) {
               <span className="h4">&#8377;{props.price}</span> <br/>
               <span><strong>ISBN: </strong>{props.isbn}</span>
             </Card.Text>
-            <Button variant="primary" onClick={e=> navigate(`/book/view/${props.id}`)}>View</Button>
+            <Button variant="primary" onClick={e=> navigate(props.link)}>View</Button>
           </Card.Body>
         </Card>
       </div>

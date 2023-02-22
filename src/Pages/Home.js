@@ -16,7 +16,7 @@ function Home() {
     <div className="container mt-5">
       <CardGroup style={{ justifyContent: "center" }}>
         {books.map((book, key) => (
-          <BookCard key={key} id={book.id} {...book.data()} />
+          <BookCard key={key} id={book.id} {...book.data()} link={`/book/view/${book.id}`} />
         ))}
       </CardGroup>
     </div>
